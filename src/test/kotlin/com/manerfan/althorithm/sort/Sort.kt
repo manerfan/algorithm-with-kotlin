@@ -84,3 +84,14 @@ class QuickSort {
         Assert.assertTrue(array.copyOf().quickSort(true).print("QuickP Sort").checkSort())
     }
 }
+
+class HeapSort {
+    companion object {
+        val array: Array<Int> = Array(100) { Random().nextInt(100) - 50 }
+    }
+
+    @Test // 堆排序
+    fun quick() {
+        Assert.assertTrue(array.copyOf().heapSort().print("Heap  Sort").checkSort())
+    }
+}
