@@ -17,9 +17,69 @@
 
 package com.manerfan.althorithm.sort
 
+import java.util.concurrent.ForkJoinPool
+import java.util.concurrent.RecursiveTask
+
 /**
  * 归并排序
  * @author manerfan
  * @date 2018/2/23
  */
- 
+
+internal fun <T : Comparable<T>> Array<T>.merge(lo: Int, mid: Int, hi: Int): Array<T> {
+    val aux = this.clone()
+
+    var p = lo
+    var q = mid + 1
+    (lo..hi).forEach { i ->
+        when {
+            q > hi -> this[i] = aux[p++] // 右侧归并完
+            p > mid -> this[i] = aux[q++] // 左侧归并完
+            aux[p] < aux[q] -> this[i] = aux[p++] // 左侧小
+            else -> this[i] = aux[q++] // 右侧小
+        }
+    }
+
+    return this
+}
+
+internal fun <T : Comparable<T>> mergeSort(array: Array<T>, lo: Int, hi: Int): Array<T> {
+    return when {
+        hi - lo < 10 -> array.shellSort() // 小范围使用希尔排序
+        hi > lo -> {
+            val mid = lo + (hi - lo) / 2
+            mergeSort(array, lo, mid)
+            mergeSort(array, mid + 1, hi)
+            array.merge(lo, mid, hi)
+            array
+        }
+        else -> array
+    }
+}
+
+class MergeSortTask<T : Comparable<T>>(
+        private var array: Array<T>,
+        private val lo: Int, private val hi: Int
+) : RecursiveTask<Array<T>>() {
+    override fun compute() = when {
+        hi - lo < 10 -> array.shellSort()
+        hi > lo -> {
+            val mid = lo + (hi - lo) / 2
+
+            val left = MergeSortTask(array, lo, mid)
+            val right = MergeSortTask(array, mid + 1, hi)
+            left.fork(); right.fork()
+            left.join(); right.join()
+
+            array.merge(lo, mid, hi)
+        }
+        else -> array
+    }
+}
+
+internal val mergePool = ForkJoinPool()
+
+fun <T : Comparable<T>> Array<T>.mergeSort(parallel: Boolean = false) = when (parallel) {
+    true -> mergeSort(this, 0, this.size - 1)
+    else -> mergePool.submit(MergeSortTask(this, 0, this.size - 1)).get()
+}!!

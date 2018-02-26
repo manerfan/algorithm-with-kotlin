@@ -54,11 +54,11 @@ fun <T : Comparable<T>> Array<T>.selectionSort(): Array<T> {
 /**
  * 插入排序
  */
-fun <T : Comparable<T>> Array<T>.insertionSort(step: Int = 1): Array<T> {
+fun <T : Comparable<T>> Array<T>.insertionSort(h: Int = 1): Array<T> {
     val latestIndex = this.size - 1
-    (step..latestIndex).forEach outerLoop@ { i ->
-        (i downTo step step step).forEach { j ->
-            if (this[j] < this[j - step]) this.exch(j - step, j)
+    (h..latestIndex).forEach outerLoop@ { i ->
+        (i downTo h step h).forEach { j ->
+            if (this[j] < this[j - h]) this.exch(j - h, j)
             else return@outerLoop
         }
     }
@@ -69,7 +69,7 @@ fun <T : Comparable<T>> Array<T>.insertionSort(step: Int = 1): Array<T> {
 /**
  * 希尔排序
  */
-fun <T : Comparable<T>> Array<T>.shellSort(step: Int = 3): Array<T> {
+fun <T : Comparable<T>> Array<T>.shellSort(step: Int = 2): Array<T> {
     var h = 1
     while (h < this.size / step) {
         h = h * step + 1
