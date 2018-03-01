@@ -23,8 +23,8 @@ package com.manerfan.althorithm.search
  * @date 2018/2/27
  */
 
-class BinarySearch<K : Comparable<K>, V> : Search<K, V>() {
-    private var tree: Node<K, V>? = null
+open class BinarySearch<K : Comparable<K>, V> : Search<K, V>() {
+    protected var tree: Node<K, V>? = null
 
     private fun put(node: Node<K, V>?, sub: Node<K, V>): Node<K, V> {
         return when (node) {
@@ -99,7 +99,7 @@ class BinarySearch<K : Comparable<K>, V> : Search<K, V>() {
 
         return when {
             node.key < key -> get(node.right, key)
-            node.key > key -> get(node.right, key)
+            node.key > key -> get(node.left, key)
             else -> node
         }
     }

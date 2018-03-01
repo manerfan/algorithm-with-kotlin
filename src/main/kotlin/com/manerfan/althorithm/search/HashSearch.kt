@@ -17,33 +17,20 @@
 
 package com.manerfan.althorithm.search
 
-import java.util.*
-
 /**
  * @author manerfan
- * @date 2018/2/27
+ * @date 2018/3/1
  */
 
-class Node<K, V>(
-        var key: K,
-        var value: V,
-        var left: Node<K, V>? = null,
-        var right: Node<K, V>? = null,
-        var red: Boolean = true
-)
+class HashSearch<K : Comparable<K>, V>(private val m: Int = 50) : Search<K, V>() {
 
-abstract class Search<K : Comparable<K>, V> : Dictionary<K, V>() {
-    var size: Int = 0
+    private var table = Array<BinarySearch<K, V>>(m) { BinarySearch() }
 
-    override fun isEmpty() = size == 0
+    private fun hash(key: K) = (key.hashCode() and 0x7fff_ffff) % m
 
-    override fun size() = size
+    override fun put(key: K, value: V) = table[hash(key)].put(key, value)
 
-    override fun elements(): Enumeration<V> {
-        throw NotImplementedError()
-    }
+    override fun remove(key: Any?) = table[hash(key as K)].remove(key)
 
-    override fun keys(): Enumeration<K> {
-        throw NotImplementedError()
-    }
+    override fun get(key: Any?) = table[hash(key as K)].get(key)
 }

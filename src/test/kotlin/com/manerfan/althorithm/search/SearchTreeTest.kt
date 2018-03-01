@@ -61,4 +61,74 @@ class SearchTreeTest {
         binarySearch.remove(1)
         Assert.assertNull(binarySearch[1])
     }
+
+    @Test // 二叉查找树
+    fun balancedBinarySearch() {
+        var balancedBinarySearch = BalancedBinarySearch<Int, String>()
+        balancedBinarySearch.put(1, "1")
+        balancedBinarySearch.put(2, "2")
+
+        Assert.assertEquals(balancedBinarySearch[1], "1")
+        Assert.assertEquals(balancedBinarySearch[2], "2")
+        Assert.assertNull(balancedBinarySearch[3])
+
+        balancedBinarySearch.put(2, "b")
+        Assert.assertNotEquals(balancedBinarySearch[2], "2")
+        Assert.assertEquals(balancedBinarySearch[2], "b")
+
+        balancedBinarySearch.put(5, "5")
+        balancedBinarySearch.put(4, "4")
+        balancedBinarySearch.put(6, "6")
+
+        balancedBinarySearch.put(-5, "-5")
+        balancedBinarySearch.put(-4, "-4")
+        balancedBinarySearch.put(-6, "-6")
+
+        balancedBinarySearch.remove(5)
+        Assert.assertNull(balancedBinarySearch[5])
+
+        balancedBinarySearch.remove(2)
+        Assert.assertNull(balancedBinarySearch[2])
+
+        balancedBinarySearch.remove(-4)
+        Assert.assertNull(balancedBinarySearch[-4])
+
+        balancedBinarySearch.remove(1)
+        Assert.assertNull(balancedBinarySearch[1])
+    }
+
+    @Test // 二叉查找树
+    fun hashSearch() {
+        var hashSearch = HashSearch<Int, String>()
+        hashSearch.put(1, "1")
+        hashSearch.put(2, "2")
+
+        Assert.assertEquals(hashSearch[1], "1")
+        Assert.assertEquals(hashSearch[2], "2")
+        Assert.assertNull(hashSearch[3])
+
+        hashSearch.put(2, "b")
+        Assert.assertNotEquals(hashSearch[2], "2")
+        Assert.assertEquals(hashSearch[2], "b")
+
+        hashSearch.put(5, "5")
+        hashSearch.put(4, "4")
+        hashSearch.put(6, "6")
+
+        hashSearch.put(-5, "-5")
+        hashSearch.put(-4, "-4")
+        hashSearch.put(-6, "-6")
+
+        hashSearch.remove(5)
+        Assert.assertNull(hashSearch[5])
+
+        hashSearch.remove(2)
+        Assert.assertNull(hashSearch[2])
+
+        hashSearch.remove(-4)
+        Assert.assertNull(hashSearch[-4])
+
+        hashSearch.remove(1)
+        Assert.assertNull(hashSearch[1])
+    }
 }
